@@ -1,0 +1,220 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{%static 'css/contactlist.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.1/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+</head>
+<body>
+    {%block body%}
+{%for message in messages%}
+    <div style="color: red;">
+        <h6>{{message}}</h6>
+    </div>
+    {%endfor%}
+    
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <h5 class="card-title  text-success">USER DATA<span class="text-muted fw-normal ms-2"></span></h5>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+
+                <!-- searchbar -->
+                <div>
+                <nav class="navbar navbar-light bg-dark">
+                    <div class="container-fluid">
+                      <form class="d-flex" action="/admin/searchbar" method="GET">
+                        <input class="form-control me-2" name="query" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                      </form>
+                    </div>
+                  </nav>
+                </div>
+                
+                <div>
+                        <!-- ADD  -->
+                        <li class="list-inline-item">
+                            <div class="modal fade" id="exampleModalToggles123" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalToggleLabel">ADD</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{%url 'add'%}" method="POST">
+                                            {%csrf_token%}
+                                            <div class="form-floating">
+                                              <input type="text" class="form-control" name="first_name" id="floatingInput" placeholder="first_name" fdprocessedid="eg8k3o">
+                                              <label for="floatingInput">Firstname</label>
+                                            </div>
+
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="last_name" id="floatingInput" placeholder="first_name" fdprocessedid="eg8k3o">
+                                                <label for="floatingInput">lastname</label>
+                                              </div>
+
+                                            <div class="form-floating">
+                                              <input type="email" class="form-control" name="email" id="email" placeholder="Email" fdprocessedid="dl50sd">
+                                              <label for="floatingPassword">Email</label>
+                                            </div>
+
+                                            <div class="form-floating">
+                                                <input type="password"  class="form-control" name="password" id="floatingInput"  fdprocessedid="eg8k3o">
+                                                <label for="floatingInput">Password</label>
+                                              </div>
+                                            
+                                              <div class="form-floating">
+                                                <input type="password"  class="form-control" name="pass2" id="floatingInput"  fdprocessedid="eg8k3o">
+                                                <label for="floatingInput">repeat password</label>
+                                              </div>
+                                    
+                                            </div>
+                                            <button class="w-100 btn btn-lg btn-primary" type="submit" fdprocessedid="k6q0td">Save</button>
+                                          </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggles123" role="button">Add New</a> 
+                        </li>
+                </div>
+            </div>
+        </div>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="">
+                <div class="table-responsive">
+                    <table class="table project-list-table table-nowrap align-middle table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="ps-4" style="width: 50px;">
+                                    <div class="form-check font-size-16"><input type="checkbox" class="form-check-input" id="contacusercheck" /><label class="form-check-label" for="contacusercheck"></label></div>
+                                </th>
+                                <th scope="col">UserName</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col" style="width: 200px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {%for user in user%}
+                            <tr>
+                                <th scope="row" class="ps-4">
+                                    <div class="form-check font-size-16"><input type="checkbox" class="form-check-input" id="contacusercheck1" /><label class="form-check-label" for="contacusercheck1"></label></div>
+                                </th>
+                                <td><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body">{{user.username}}</a></td>
+                                <td><span class="badge badge-soft-success mb-0">{{user.first_name}}</span></td>
+                                <td>{{user.last_name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>
+                                    <ul class="list-inline mb-0">
+
+                                         <!-- Edit  -->
+                                         <li class="list-inline-item">
+                                            <div class="modal fade" id="exampleModalToggle2{{user.id}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalToggleLabel">Edit</h5>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action='/admin/update/{{user.id}}/' method="POST">
+                                                            {%csrf_token%}
+                                                            <div class="form-outline mb-4">
+                                                              <input type="text" value="{{user.first_name}}" class="form-control" name="first_name" id="floatingInput"  fdprocessedid="eg8k3o">
+                                                              <label for="floatingInput">First Name</label>
+                                                            </div>
+                                                            <div class="form-outline mb-4">
+                                                                <input type="text" value="{{user.last_name}}" class="form-control" name="last_name" id="floatingInput"  fdprocessedid="eg8k3o">
+                                                                <label for="floatingInput">Last_name</label>
+                                                              </div>
+                                                            <div class="form-outline mb-4">
+                                                              <input type="email" value="{{user.email}}" class="form-control" name="email" id="email" placeholder="Email" fdprocessedid="dl50sd">
+                                                              <label for="floatingPassword">Email</label>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4">
+                                                                <input type="password" id="password" value="*****" name="password" class="form-control form-control-lg" />
+                                                                <label class="form-label" for="form3Example4cg">Password</label>
+                                                              </div>
+                                            
+                                                              <div class="form-outline mb-4">
+                                                                <input type="password" id="re-password" value="*****" name="pass2" class="form-control form-control-lg" />
+                                                                <label class="form-label" for="form3Example4cg">Repeat Password</label>
+                                                              </div>
+
+
+                                                    
+                                                            </div>
+                                                            <button class="w-100 btn btn-lg btn-primary" type="submit" fdprocessedid="k6q0td">Update</button>
+                                                          </form>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle2{{user.id}}" role="button"><i class="bx bx-pencil font-size-18"></i></a> 
+                                        </li>
+
+                                        <!-- delete -->
+                                        <li class="list-inline-item">
+                                            <div class="modal fade" id="exampleModalToggle{{forloop.counter}}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalToggleLabel">DELETE</h5>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Are you sure about deleting the user.
+                                                    </div>
+                                                    <a href="/admin/delete/{{user.id}} " class="text-center mb-4"><button type="button" class="btn btn-danger w-1">Delete</button></a>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <a class="btn btn-danger" data-bs-toggle="modal" href="#exampleModalToggle{{forloop.counter}}" role="button"><i class="bx bx-trash-alt font-size-18"></i></a>
+                                            
+                                        </li>
+                                        <li class="list-inline-item dropdown">
+                                            <a class="text-muted dropdown-toggle font-size-18 px-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="bx bx-dots-vertical-rounded"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            {%endfor%}
+                            
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+{%endblock body%}
+</body>
+</html>
